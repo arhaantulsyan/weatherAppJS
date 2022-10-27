@@ -1,66 +1,42 @@
-// let weather={
-// apiKey :"03d32da4e4b248e559a276b75c50bc4f",
-// fetchWeather: function(city){
-// fetch(
-//     "https://api.openweathermap.org/data/2.5/weather?q= "+ city +"&appid="+ this.apiKey,
-// )
-// .then((Response)=>Response.json())
-// .then((data)=>console.log(data));
-// },
-let weather = {
-  apiKey: "03d32da4e4b248e559a276b75c50bc4f",
-  fetchWeather: function (city) {
-    fetch(
-      "https://api.openweathermap.org/data/2.5/weather?q=" +
-        city +
-        "&units=metric&appid=" +
-        this.apiKey
-    )
-      .then((response) => {
-        if (!response.ok) {
-          alert("No weather found.");
-          throw new Error("No weather found.");
-        }
-        return response.json();
-      })
-      .then((data) => this.displayWeather(data));
-  },
-displayWeather: function(data)
-{
- const{name}=data;
- const{ icon,description}=data.weather[0];
-//  const{icon,description}=data.main;
- const{temp,humidity}=data.main;
- const {speed}=data.wind;
-//  console.log(name,icon,description,temp,humidity,speed)
+console.log("This is mY js File");
+//f398cee6cf1f4a8bad34a051bafdaffa
 
- document.querySelector(".city").innerText="Weather in" +name;
- document.querySelector(".icon").src =
-      "https://openweathermap.org/img/wn/" + icon + ".png";
- document.querySelector(".description").innerText=description;
- document.querySelector(".temp").innerText=temp + "C" ;
- document.querySelector(".humidity").innerText="Humidity: " + humidity + "%";
- document.querySelector(".wind").innerText="Wind speed"+ speed + " km/h" ;
- document.querySelector(".weather").classList.remove("loading");
- console.log(speed);
- document.body.style.backgroundImage =
-   "url('https://source.unsplash.com/1600x900/?" + name + "')";
-},
-search: function () {
-    this.fetchWeather(document.querySelector(".search-bar").value);
-  },
-};
-document.querySelector(".search button").addEventListener("click",function(){
-    weather.search();
+//the news api 
+let source = 'bbc-news';
+let apiKey = 'f398cee6cf1f4a8bad34a051bafdaffa'
 
-});
-document
-  .querySelector(".search-bar")
-  .addEventListener("keyup", function (event) {
-    if (event.key == "Enter") {
-      weather.search();
+//grab the news container
+let newsAccordion = document.getElementById('newsAccordion');
+
+//create Getrequest
+const xhr = new XMLHttpRequest();
+xhr.open('GET', `https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=f398cee6cf1f4a8bad34a051bafdaffa`, true);
+// What to do when response is ready
+xhr.onload = function() {
+    if (this.status === 200) {
+
+        let json = JSON.parse(this.responseText);
+        console.log(json);
+    } else {
+        console.log("Some error occured");
     }
-  });
+}
+xhr.send();
 
-weather.fetchWeather("Denver");
-// weather.displayWeather(data);
+let news = ` <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Collapsible Group Item #1
+        </button>
+            </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+                on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+</div>`
